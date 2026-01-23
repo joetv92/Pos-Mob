@@ -1,4 +1,4 @@
-import { AlertCircle, Clock, CreditCard, Hash, TrendingUp, X } from 'lucide-react-native';
+import { Clock, CreditCard, Hash, TrendingUp, Users, X } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, FlatList, Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
@@ -11,6 +11,7 @@ export default function Dashboard() {
   const [data, setData] = useState<any>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [barmanName, setBarmanName] = useState<string>("");
 
   useEffect(() => {
     fetchDashboardData();
@@ -20,6 +21,7 @@ export default function Dashboard() {
     try {
       const response = await api.get('/dashboard/current-session');
       setData(response.data);
+      setBarmanName(response.data?.session?.user?.name || "Admin");
     } catch (error) {
       console.error("API Error:", error);
     } finally {
@@ -27,7 +29,6 @@ export default function Dashboard() {
     }
   };
 
-  // دالة لتنسيق التاريخ والوقت حسب اللغة
   const formatDateTime = (dateString: string) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat(i18n.language, {
@@ -38,15 +39,33 @@ export default function Dashboard() {
     }).format(date);
   };
 
-  // حساب المجموع الصافي للمبيعات (باستثناء الملغاة)
+  // --- الحسابات البرمجية داخل التطبيق ---
+
+  // 1. حساب المبيعات الصافية
   const totalSales = data?.orders
     ?.filter((o: any) => o.type === 'sale' && !o.cancelled)
     ?.reduce((acc: number, curr: any) => acc + parseFloat(curr.total_amount), 0) || 0;
 
-  // حساب مجموع المصاريف
+  // 2. حساب المصاريف
   const totalCharges = data?.orders
     ?.filter((o: any) => o.type === 'expense' && !o.cancelled)
     ?.reduce((acc: number, curr: any) => acc + parseFloat(curr.total_amount), 0) || 0;
+
+  // 3. حساب مبيعات كل نادل
+  const calculateServerSales = () => {
+    const serverMap: any = {};
+    data?.orders
+      ?.filter((o: any) => o.type === 'sale' && !o.cancelled)
+      ?.forEach((order: any) => {
+        const serverName = order.server?.name || barmanName;
+        if (!serverMap[serverName]) serverMap[serverName] = 0;
+        serverMap[serverName] += parseFloat(order.total_amount);
+      });
+
+    return Object.entries(serverMap).map(([name, total]) => ({ name, total: total as number }));
+  };
+
+  const serverSales = calculateServerSales();
 
   const renderOrderItem = ({ item }: any) => {
     const isSale = item.type === 'sale';
@@ -64,6 +83,11 @@ export default function Dashboard() {
             <Hash size={16} color="#64748b" />
             <Text style={styles.orderNumber}>{item.order_number}</Text>
           </View>
+          <View style={styles.timeSection}>
+            <Text style={{ fontSize: 12, color: '#64748b', marginLeft: 8 }}>
+              👤 {item.server?.name || barmanName}
+            </Text>
+          </View>
           <View style={[styles.typeBadge, { backgroundColor: isSale ? '#dcfce7' : '#fee2e2' }]}>
             <Text style={[styles.typeText, { color: isSale ? '#166534' : '#991b1b' }]}>
               {isSale ? t('sale') : t('expense')}
@@ -77,12 +101,6 @@ export default function Dashboard() {
             <Text style={styles.dateText}>{formatDateTime(item.created_at)}</Text>
           </View>
           <View style={styles.priceSection}>
-            {item.cancelled && (
-              <View style={styles.cancelledBadge}>
-                <AlertCircle size={12} color="#fff" />
-                <Text style={styles.cancelledText}>{t('cancelled')}</Text>
-              </View>
-            )}
             <Text style={[styles.amountText, item.cancelled && styles.strikeThrough]}>
               {parseFloat(item.total_amount).toFixed(2)} DH
             </Text>
@@ -96,13 +114,14 @@ export default function Dashboard() {
 
   return (
     <View style={styles.container}>
-      {/* اسم البارمان */}
+      {/* 1. الهيدر: اسم البارمان */}
       <View style={styles.headerInfo}>
-        <Text style={styles.welcomeText}>{t('welcome')},</Text>
-        <Text style={styles.barmanName}>{data?.barman_name || "Admin"}</Text>
+        <View>
+          <Text style={styles.barmanName}>{data?.session?.user?.name || "Admin"}</Text>
+        </View>
       </View>
 
-      {/* إحصائيات المبالغ المحسوبة برمجياً */}
+      {/* 2. الإحصائيات العامة */}
       <View style={styles.statsRow}>
         <View style={[styles.statBox, { backgroundColor: '#2ecc71' }]}>
           <TrendingUp color="#fff" size={20} />
@@ -116,6 +135,20 @@ export default function Dashboard() {
         </View>
       </View>
 
+      {/* 3. قسم مبيعات النادلين (New) */}
+      <View style={{ marginVertical: 15, padding: 15, backgroundColor: '#fff', borderRadius: 15 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <Users size={18} color="#3b82f6" style={{ marginRight: 8 }} />
+          <Text style={{ fontWeight: 'bold', color: '#1e293b' }}>{t('sales_by_server') || 'Ventes par Serveur'}</Text>
+        </View>
+        {serverSales.map((srv, index) => (
+          <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 5 }}>
+            <Text style={{ color: '#64748b' }}>{srv.name}</Text>
+            <Text style={{ fontWeight: 'bold' }}>{srv.total.toFixed(2)} DH</Text>
+          </View>
+        ))}
+      </View>
+
       <Text style={styles.sectionTitle}>{t('orders')}</Text>
 
       <FlatList
@@ -123,6 +156,7 @@ export default function Dashboard() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderOrderItem}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 20 }}
       />
 
       {/* Modal تفاصيل الطلب */}
