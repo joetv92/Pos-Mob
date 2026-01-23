@@ -1,33 +1,53 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
+import { History, Home, ShoppingBag } from 'lucide-react-native';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+export default function Layout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        headerStyle: {
+          backgroundColor: '#2ecc71', // أخضر بريميوم للباترون
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          fontSize: 20
+        },
+        tabBarActiveTintColor: '#2ecc71',
+        tabBarInactiveTintColor: '#888',
+        tabBarStyle: {
+          paddingBottom: 5,
+          height: 60,
+        }
+      }}
+    >
+      {/* الشاشة الرئيسية: الجلسة الحالية */}
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'الرئيسية',
+          tabBarLabel: 'الرئيسية',
+          tabBarIcon: ({ color }) => <Home size={24} color={color} />,
         }}
       />
+
+      {/* شاشة الجلسات والتواريخ */}
       <Tabs.Screen
-        name="explore"
+        name="sessions"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'الأرشيف',
+          tabBarLabel: 'الجلسات',
+          tabBarIcon: ({ color }) => <History size={24} color={color} />,
+        }}
+      />
+
+      {/* شاشة المنتجات (لمراقبة الأسعار مثلاً) */}
+      <Tabs.Screen
+        name="products"
+        options={{
+          title: 'المنتجات',
+          tabBarLabel: 'المنتجات',
+          tabBarIcon: ({ color }) => <ShoppingBag size={24} color={color} />,
         }}
       />
     </Tabs>

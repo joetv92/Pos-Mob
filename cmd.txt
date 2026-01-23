@@ -1,0 +1,11 @@
+npx create-expo-app CafeAdminApp
+npx expo install react-navigation @react-navigation/native @react-navigation/native-stack @react-navigation/bottom-tabs react-native-screens react-native-safe-area-context axios lucide-react-native
+npx expo install lucide-react-native
+npx expo start
+yarn add axios
+npx expo install react-native-svg
+npx expo start -c
+
+
+
+
