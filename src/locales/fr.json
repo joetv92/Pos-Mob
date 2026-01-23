@@ -1,0 +1,15 @@
+{
+    "dashboard": "Tableau de Bord",
+    "total_sales": "Ventes Totales",
+    "orders": "Commandes",
+    "settings": "Paramètres",
+    "change_lang": "Changer la langue",
+    "welcome": "Bienvenue Patron",
+    "sessions": "Sessions",
+    "charges": "Charges",
+    "net_profit": "Bénéfice Net",
+    "order_details": "Détails de commande",
+    "sale": "Vente",
+    "expense": "Dépense",
+    "cancelled": "Annulé"
+}

@@ -1,53 +1,43 @@
 import { Tabs } from 'expo-router';
-import { History, Home, ShoppingBag } from 'lucide-react-native';
+import { History, Home, Settings } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
+import './../../src/i18n/config'; // استيراد إعدادات اللغة
 
 export default function Layout() {
+  const { t } = useTranslation();
+
   return (
     <Tabs
       screenOptions={{
-        headerStyle: {
-          backgroundColor: '#2ecc71', // أخضر بريميوم للباترون
-        },
+        headerStyle: { backgroundColor: '#2ecc71' },
         headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-          fontSize: 20
-        },
+        headerTitleAlign: 'center', // جعل العنوان في المنتصف دائماً
         tabBarActiveTintColor: '#2ecc71',
-        tabBarInactiveTintColor: '#888',
-        tabBarStyle: {
-          paddingBottom: 5,
-          height: 60,
-        }
+        tabBarLabelStyle: { fontWeight: 'bold' },
       }}
     >
-      {/* الشاشة الرئيسية: الجلسة الحالية */}
       <Tabs.Screen
         name="index"
         options={{
-          title: 'الرئيسية',
-          tabBarLabel: 'الرئيسية',
+          title: t('dashboard'), // تترجم لـ "لوحة التحكم" أو "Tableau de Bord"
+          tabBarLabel: t('dashboard'),
           tabBarIcon: ({ color }) => <Home size={24} color={color} />,
         }}
       />
-
-      {/* شاشة الجلسات والتواريخ */}
       <Tabs.Screen
         name="sessions"
         options={{
-          title: 'الأرشيف',
-          tabBarLabel: 'الجلسات',
+          title: t('sessions'),
+          tabBarLabel: t('sessions'),
           tabBarIcon: ({ color }) => <History size={24} color={color} />,
         }}
       />
-
-      {/* شاشة المنتجات (لمراقبة الأسعار مثلاً) */}
       <Tabs.Screen
-        name="products"
+        name="settings"
         options={{
-          title: 'المنتجات',
-          tabBarLabel: 'المنتجات',
-          tabBarIcon: ({ color }) => <ShoppingBag size={24} color={color} />,
+          title: t('settings'),
+          tabBarLabel: t('settings'),
+          tabBarIcon: ({ color }) => <Settings size={24} color={color} />,
         }}
       />
     </Tabs>

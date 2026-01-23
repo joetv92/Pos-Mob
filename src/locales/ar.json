@@ -1,0 +1,13 @@
+{
+    "dashboard": "لوحة التحكم",
+    "total_sales": "إجمالي المبيعات",
+    "charges": "المصاريف",
+    "orders": "قائمة الطلبات",
+    "sale": "مبيع",
+    "expense": "مصروف",
+    "cancelled": "ملغي",
+    "settings": "الإعدادات",
+    "sessions": "الجلسات",
+    "order_details": "تفاصيل الطلب",
+    "close": "إغلاق"
+}
