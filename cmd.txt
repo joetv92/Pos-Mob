@@ -7,7 +7,7 @@ npx expo install react-native-svg
 npx expo start -c
 
 npx expo install i18next react-i18next @react-native-async-storage/async-storage expo-localization expo-updates
-
+npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
 
 
 

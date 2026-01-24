@@ -11,5 +11,6 @@
     "order_details": "Détails de commande",
     "sale": "Vente",
     "expense": "Dépense",
-    "cancelled": "Annulé"
+    "cancelled": "Annulé",
+    "management": "Gestion"
 }
