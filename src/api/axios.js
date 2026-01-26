@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = 'http://192.168.1.11:8000';
+const BASE_URL = 'http://192.168.1.170:8000';
 const instance = axios.create({
     // استبدل بـ IP جهاز الكمبيوتر الخاص بك أو رابط الـ API
 
