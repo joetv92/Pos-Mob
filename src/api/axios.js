@@ -1,14 +1,13 @@
 import axios from 'axios';
-const BASE_URL = 'http://192.168.1.170:8000';
-const instance = axios.create({
-    // استبدل بـ IP جهاز الكمبيوتر الخاص بك أو رابط الـ API
+import { Config } from '../constants/Config';
 
-    baseURL: `${BASE_URL}/api`,
-    timeout: 10000,
+const api = axios.create({
+    baseURL: Config.BASE_URL,
+    timeout: Config.TIMEOUT,
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
     }
 });
-export const STORAGE_URL = `${BASE_URL}/storage/`;
-export default instance;
+
+export default api;

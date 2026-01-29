@@ -27,7 +27,7 @@ import {
 import api from '../../src/api/axios';
 
 const { width } = Dimensions.get('window');
-const IMAGE_BASE_URL = 'http://192.168.1.170:8000/storage/products/';
+const IMAGE_BASE_URL = 'http://192.168.1.129:8000/storage/products/';
 
 export default function SessionArchivePage() {
   const [loading, setLoading] = useState(false);

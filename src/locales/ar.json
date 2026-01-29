@@ -10,5 +10,8 @@
     "sessions": "الجلسات",
     "order_details": "تفاصيل الطلب",
     "close": "إغلاق",
-    "management": "الإدارة"
+    "management": "الإدارة",
+    "server": "خادم",
+    "sales_by_server": "المبيعات حسب الخادم",
+    "total_sales": "إجمالي المبيعات"
 }

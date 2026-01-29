@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import api from '../../src/api/axios';
 
-const STORAGE_URL = 'http://192.168.1.11:8000/storage/';
+const STORAGE_URL = 'http://192.168.1.129:8000/storage/';
 
 // الأدوار المتاحة
 const AVAILABLE_ROLES = [

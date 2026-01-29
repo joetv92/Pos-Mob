@@ -12,5 +12,8 @@
     "sale": "Vente",
     "expense": "Dépense",
     "cancelled": "Annulé",
-    "management": "Gestion"
+    "management": "Gestion",
+    "server": "Serveur",
+    "sales_by_server": "Ventes par serveur",
+    "total_sales": "Ventes totales"
 }
