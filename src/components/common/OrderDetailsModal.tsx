@@ -1,8 +1,8 @@
 import { X } from 'lucide-react-native';
 import React from 'react';
 import { ActivityIndicator, Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { SmartImageWithId } from '../../components/common/SmartImageWithId';
-import { styles } from './home.styles';
+import { styles } from '../../screens/home/home.styles';
+import { SmartImageWithId } from './SmartImageWithId';
 
 export const OrderDetailsModal = ({ visible, order, onClose, loading, t }: any) => (
     <Modal visible={visible} animationType="slide" transparent>

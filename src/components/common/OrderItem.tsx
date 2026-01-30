@@ -2,7 +2,7 @@ import { Clock, Hash } from 'lucide-react-native';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Colors } from '../../constants/Config';
-import { styles } from './home.styles';
+import { styles } from '../../screens/home/home.styles';
 
 export const OrderItem = ({ item, onPress, t, formatTime, barmanName }: any) => {
     const isSale = item.type === 'sale';

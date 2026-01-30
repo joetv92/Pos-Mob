@@ -1,4 +1,4 @@
-const IP = '192.168.1.129';
+const IP = '192.168.1.11';
 export const Config = {
     BASE_URL: `http://${IP}:8000/api`,
     STORAGE_URL: `http://${IP}:8000/storage/`,

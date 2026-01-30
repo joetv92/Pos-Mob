@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 import api from '../../api/axios';
+import { formatTime } from '../../helpers/date';
 import { styles } from './home.styles';
 
 // استيراد المكونات التي أنشأناها
+import { OrderDetailsModal } from '../../components/common/OrderDetailsModal';
+import { OrderItem } from '../../components/common/OrderItem';
 import { HomeHeader } from './HomeHeader';
-import { OrderDetailsModal } from './OrderDetailsModal';
-import { OrderItem } from './OrderItem';
 import { ServerSales } from './ServerSales';
 import { StatsCards } from './StatsCards';
 
 export default function HomeContainer() {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState<any>(null);
     const [selectedOrder, setSelectedOrder] = useState<any>(null);
@@ -68,9 +69,7 @@ export default function HomeContainer() {
         return Object.entries(serverMap).map(([name, total]) => ({ name, total: total as number }));
     };
 
-    const formatTime = (dateString: string) => {
-        return new Date(dateString).toLocaleTimeString(i18n.language, { hour: '2-digit', minute: '2-digit' });
-    };
+
 
     if (loading) return <ActivityIndicator size="large" color="#2ecc71" style={{ flex: 1 }} />;
 
