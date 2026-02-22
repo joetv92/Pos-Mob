@@ -9,21 +9,6 @@ export const CategoryForm = ({ item, onSuccess }) => {
     const [localUri, setLocalUri] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    /**
-     * دالة تحويل النص إلى معرف (ID) فريد
-     * مثال: "Boissons Chaudes" -> "cat_boissons_chaudes"
-     */
-    const generateSlugId = (text) => {
-        const slug = text
-            .toLowerCase() // تحويل للأصغر
-            .trim()        // إزالة الفراغات من الأطراف
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // إزالة العلامات الإعرابية (مثل é تحول إلى e)
-            .replace(/[^a-z0-9\s-]/g, '') // إزالة أي رموز غريبة
-            .replace(/[\s-]+/g, '_')     // تحويل المسافة أو الشرطة إلى شرطة سفلية
-            .replace(/^_+|_+$/g, '');     // تنظيف الأطراف من الشرطات السفلية زائده
-
-        return `cat_${slug}`;
-    };
 
     const handleSave = async () => {
         if (!name.trim()) {
@@ -34,14 +19,6 @@ export const CategoryForm = ({ item, onSuccess }) => {
         setLoading(true);
         const data = new FormData();
         data.append('name', name);
-
-        // إذا كان تعديلاً، نستخدم الـ ID الحالي، إذا كان جديداً نولد ID نصي
-        if (item?.id) {
-            data.append('id', item.id);
-        } else {
-            const customId = generateSlugId(name);
-            data.append('id', customId);
-        }
 
         if (localUri) {
             const filename = localUri.split('/').pop();
