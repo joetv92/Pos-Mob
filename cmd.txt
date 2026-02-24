@@ -11,3 +11,6 @@ npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
 npm install expo-image-picker
 npm install @react-native-picker/picke
 
+
+yarn add expo-secure-store
+

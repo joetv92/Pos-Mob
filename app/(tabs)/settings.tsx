@@ -1,9 +1,10 @@
+import { router } from 'expo-router';
+import * as SecureStore from 'expo-secure-store';
 import { CheckCircle2, Languages } from 'lucide-react-native';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { changeLanguage } from '../../src/i18n/config';
-
 export default function SettingsScreen() {
     const { t, i18n } = useTranslation();
     const currentLanguage = i18n.language;
@@ -13,7 +14,13 @@ export default function SettingsScreen() {
             await changeLanguage(lang);
         }
     };
+    const handleLogout = async () => {
+        await SecureStore.deleteItemAsync('token');
+        await SecureStore.deleteItemAsync('user');
+        await SecureStore.deleteItemAsync('posId'); // إذا كنت تخزنه
 
+        router.replace('/login');
+    };
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -46,6 +53,11 @@ export default function SettingsScreen() {
                     ? "سيتم إعادة تشغيل التطبيق لتغيير الاتجاه"
                     : "L'application va redémarrer pour appliquer les changements"}
             </Text>
+            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                <Text style={styles.logoutText}>
+                    {currentLanguage === 'ar' ? 'تسجيل الخروج' : 'Déconnexion'}
+                </Text>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -69,5 +81,17 @@ const styles = StyleSheet.create({
     },
     activeCard: { borderColor: '#2ecc71', borderWidth: 2 },
     langText: { fontSize: 18, fontWeight: '600', color: '#34495e' },
-    footerNote: { textAlign: 'center', color: '#95a5a6', marginTop: 20, fontSize: 14 }
+    footerNote: { textAlign: 'center', color: '#95a5a6', marginTop: 20, fontSize: 14 },
+    logoutButton: {
+        marginTop: 40,
+        backgroundColor: '#e74c3c',
+        padding: 15,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    logoutText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    }
 });

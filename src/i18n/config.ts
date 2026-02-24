@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 import * as Updates from 'expo-updates';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -22,8 +22,7 @@ i18n.use(initReactI18next).init({
 });
 
 export const changeLanguage = async (lang: 'ar' | 'fr') => {
-    await AsyncStorage.setItem('user-language', lang);
-
+    await SecureStore.setItemAsync('user-language', lang);
     const isRTL = lang === 'ar';
 
     await i18n.changeLanguage(lang);
